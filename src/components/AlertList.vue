@@ -22,7 +22,7 @@
         <tr
           :style="{ 'background-color': severityColor(props.item.severity) }"
           class="hover-lighten"
-          @click="selectItem(props.item)"
+          @dblclick="selectItem(props.item)"
         >
           <td
             class="text-no-wrap"
@@ -577,7 +577,7 @@ export default {
     },
     customHeaders() {
       return this.$config.columns.map(c =>
-        this.headersMap[c] || { text: this.$options.filters.capitalize(c), value: 'attributes.' + c }
+        this.headersMap[c] || { text: this.$options.filters.splitCaps(c), value: 'attributes.' + c }
       )
     },
     selectedItem() {
