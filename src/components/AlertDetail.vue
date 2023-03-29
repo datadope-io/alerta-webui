@@ -714,15 +714,9 @@
                     </div>
                     <div class="flex xs6 text-xs-left">
                       <div
-                        v-if="typeof value === 'object'"
+                        v-if="typeof parseJSON(value) === 'object'"
                       >
-                        <span
-                          v-for="v in value"
-                          :key="v"
-                          @click="queryBy(`_.${attr}`, v)"
-                        >
-                          <span class="clickable">{{ v }}</span>&nbsp;
-                        </span>
+                        <vue-json-pretty :showIcon=true :data="parseJSON(value)" />
                       </div>
                       <div
                         v-else-if="typeof value === 'string' && (value.includes('http://') || value.includes('https://'))"
@@ -860,11 +854,14 @@ import DateTime from './lib/DateTime'
 import AlertActions from '@/components/AlertActions'
 import i18n from '@/plugins/i18n'
 import nunjucks from 'nunjucks'
+import VueJsonPretty from 'vue-json-pretty'
+import 'vue-json-pretty/lib/styles.css'
 
 export default {
   components: {
     DateTime,
-    AlertActions
+    AlertActions,
+    VueJsonPretty
   },
   props: {
     id: {
@@ -1038,6 +1035,17 @@ export default {
       setTimeout(() => {
         this.copyIconText = i18n.t('Copy')
       }, 2000)
+    },
+    parseJSON(value) {
+      if (typeof value !== 'object') {
+        try {
+          let data = JSON.parse(value)
+          return data
+        } catch (error) {
+          return value
+        }
+      }
+      return value
     }
   }
 }
