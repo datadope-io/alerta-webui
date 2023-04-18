@@ -727,7 +727,7 @@ export default {
       this.query = null
       this.$store.dispatch('alerts/updateQuery', {})
       this.$router.push({
-        query: { ...this.$router.query, q: undefined },
+        query: { ...this.$router.query, q: {} },
         hash: this.$store.getters['alerts/getHash']
       })
       this.refresh()
